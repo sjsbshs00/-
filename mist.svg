@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#8eaca4"/><stop offset=".7" stop-color="#dbe0c8"/><stop offset="1" stop-color="#aabb8c"/></linearGradient>
+    <linearGradient id="ridge" x2=".8" y2="1"><stop stop-color="#577563"/><stop offset="1" stop-color="#152e24"/></linearGradient>
+    <linearGradient id="grass" x2=".8" y2="1"><stop stop-color="#809765"/><stop offset="1" stop-color="#3c5b3b"/></linearGradient>
+    <filter id="mist"><feGaussianBlur stdDeviation="33"/></filter>
+  </defs>
+  <rect width="1200" height="800" fill="url(#sky)"/>
+  <path d="M0 390 160 205 310 335 450 220 650 362 930 176 1200 360V800H0Z" fill="#738e7d" opacity=".45"/>
+  <path d="M0 470Q210 170 415 330T820 372L1200 305V800H0Z" fill="url(#ridge)"/>
+  <g filter="url(#mist)" fill="#f2f2db" opacity=".43"><ellipse cx="380" cy="333" rx="430" ry="58"/><ellipse cx="925" cy="420" rx="325" ry="39"/></g>
+  <path d="M0 565Q360 344 674 583T1200 483V800H0Z" fill="url(#grass)"/>
+  <path d="M0 735Q366 586 746 707T1200 604V800H0Z" fill="#284833"/>
+  <path d="M509 800Q802 677 641 632T740 505" fill="none" stroke="#bfbd91" stroke-width="12" opacity=".57"/>
+  <path d="m1200 800-211-52-338 52Z" fill="#17382b"/>
+</svg>
