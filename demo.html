@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>拾页 · 聊天收藏排版</title><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#f8f8f5}#editor{height:100dvh}</style></head><body><div id="editor"></div><script type="module">
+import {mountEditor} from './editor.js';
+import {makeDocument,markdownBlocks,makeBlock,setTemplate,TEMPLATES} from './core.js';
+const messages=[
+{speaker:'我',isUser:true,text:'你看，雨停了。'},
+{speaker:'谢临渊',isUser:false,text:'他合上书，抬眼看向窗外。雨水沿着屋檐落下来，庭院里的青石还湿着。\n\n“那就出去走走。”'},
+{speaker:'我',isUser:true,text:'我把窗推开一点，风里有很淡的草木香。\n\n“等我拿件外衣。”'},
+{speaker:'谢临渊',isUser:false,text:'“已经替你拿来了。”\n\n他站在门边，臂弯里搭着那件浅色外衣。见你走近，他将衣服递过来，又抬手扶住了将要关上的门。'},
+{speaker:'我',isUser:true,text:'从廊下走到院子里，鞋尖沾了一点水。远处有人正把一盆花搬回窗台。'},
+{speaker:'谢临渊',isUser:false,text:'“慢些。”\n\n他朝你伸出手。巷口的灯刚亮，金色的光映在湿漉漉的路面上，一直铺到你们脚下。'},
+{speaker:'我',isUser:true,text:'我伸手握住他的手。\n\n“我们走哪边？”'},
+{speaker:'谢临渊',isUser:false,text:'“你想走哪边，就走哪边。”\n\n你们沿着长街慢慢走。卖糖糕的摊子还开着，他买了两块，递给你一块热的。纸袋贴在掌心，暖意一点点透进来。'}
+].map((m,index)=>({...m,id:String(index),index,source:'demo#'+index}));
+const doc=makeDocument('雨停以后');doc.subtitle='一段值得留下的日常';doc.author='雅雅 · 私人摘录';doc.blocks=[...markdownBlocks(messages[1].text,{speaker:'谢临渊'}),...markdownBlocks(messages[3].text,{speaker:'谢临渊'}),makeBlock('',{type:'divider'}),...markdownBlocks(messages[5].text,{speaker:'谢临渊'})];
+const template=new URLSearchParams(location.search).get('template');
+if(TEMPLATES.some(t=>t.id===template)){
+  setTemplate(doc,template);
+  const picture=(name,caption='',extra={})=>makeBlock('',{type:'image',src:new URL('./examples/'+name+'.svg',import.meta.url).href,caption,ratio:'auto',fit:'cover',align:'center',filter:template==='inkfolio'?'grayscale':'none',...extra});
+  if(template==='booknote'){doc.subtitle='一段值得留下的日常';doc.blocks=[makeBlock('雨停以后，所有没有说完的话，都留在了风里。'),makeBlock('他在门前等我，将那件外衣递过来。巷口的灯刚亮，我们沿着长街，慢慢走。')];}
+  else if(template==='whitecollage'){doc.title='年少无名';doc.subtitle='把平凡的日子，留成几页光。';doc.blocks=[picture('branch'),picture('mist'),picture('night'),makeBlock('今天的风很轻。走到那棵开花的树下时，他忽然停下来，替我拂去落在肩头的一片花瓣。'),picture('branch','春天停在枝头'),makeBlock('我们没有急着回去。天色慢慢暗下来，路灯一盏一盏亮起。')];}
+  else {doc.title=template==='forestpoem'?'山野来信':'雨后的片段';doc.subtitle=template==='forestpoem'?'山有回声，风有归处。':'一些轻轻落在纸上的时刻。';doc.blocks=[makeBlock('风从山谷里吹来，草叶向着同一个方向俯下身去。我们沿着小路往前，谁也没有催促谁。'),picture('mist','把脚步留给远方'),makeBlock('暮色落下时，他停在湖边，回头等我。远处的灯一盏盏亮起来，像有人把星光放进了人间。'),picture('night','等一阵风，也等你。')];}
+}
+const storageKey=template?'shiyepress-demo-'+template:'shiyepress-demo-v1';
+const adapter={read:async()=>JSON.parse(localStorage.getItem(storageKey)||'null'),write:async data=>localStorage.setItem(storageKey,JSON.stringify(data)),getSources:()=>messages,sourceName:()=> '示例聊天 · 谢临渊'};
+window.shiyepress=await mountEditor(document.querySelector('#editor'),{adapter,sources:messages,initialDocument:doc,assetName:'shiyepress-demo-assets'});
+</script></body></html>
