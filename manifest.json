@@ -1,0 +1,15 @@
+{
+  "display_name": "拾页 · 聊天收藏排版",
+  "loading_order": 50,
+  "requires": [],
+  "optional": [],
+  "dependencies": [],
+  "js": "index.js",
+  "author": "雅雅 / Codex",
+  "version": "1.2.0",
+  "auto_update": false,
+  "hooks": {
+    "enable": "onEnable",
+    "disable": "onDisable"
+  }
+}
